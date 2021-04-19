@@ -115,6 +115,16 @@ app.get('/germany/history/recovered/:days', queuedCache(), cache.route(), async 
 	res.json(response);
 });
 
+app.get('/germany/history/allcases/', queuedCache(), cache.route(), async (req, res) => {
+	const response = await GermanyAllCasesHistoryResponse();
+	res.json(response);
+});
+
+app.get('/germany/history/allcases/:days', queuedCache(), cache.route(), async (req, res) => {
+	const response = await GermanyAllCasesHistoryResponse(parseInt(req.params.days));
+	res.json(response);
+});
+
 app.get('/states', queuedCache(), cache.route(), async (req, res) => {
 	const response = await StatesResponse();
 	res.json(response);
@@ -348,16 +358,6 @@ app.get('/map/states', queuedCache(), cache.route(), async (req, res) => {
 
 app.get('/map/states/legend', queuedCache(), cache.route(), async (req, res) => {
 	res.json(IncidenceColorsResponse());
-});
-
-app.get('/germany/history/allcases/:days', queuedCache(), cache.route(), async (req, res) => {
-	const response = await GermanyAllCasesHistoryResponse(parseInt(req.params.days));
-	res.json(response);
-});
-
-app.get('/germany/history/allcases/', queuedCache(), cache.route(), async (req, res) => {
-	const response = await GermanyAllCasesHistoryResponse();
-	res.json(response);
 });
 
 app.use(function(error: any, req: Request, res: Response, next: NextFunction) {
