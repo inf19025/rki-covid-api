@@ -355,6 +355,11 @@ app.get('/germany/history/allcases/:days', queuedCache(), cache.route(), async (
 	res.json(response);
 });
 
+app.get('/germany/history/allcases/', queuedCache(), cache.route(), async (req, res) => {
+	const response = await GermanyAllCasesHistoryResponse();
+	res.json(response);
+});
+
 app.use(function(error: any, req: Request, res: Response, next: NextFunction) {
 	if (error instanceof RKIError) {
 		res.json({

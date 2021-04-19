@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ResponseData } from './response-data';
-import { getDateBefore, RKIError } from '../utils';
+import { getDateBefore, RKIError, getIsoStringFromUnixString } from '../utils';
 
 export async function getCases(): Promise<ResponseData<number>> {
 	const response = await axios.get(
@@ -59,15 +59,22 @@ export async function getLastCasesHistory(days?: number): Promise<{ cases: numbe
  * @returns The Promise containing the calculated number of cases
  */
 export async function getAllCasesHistory(days?: number): Promise<{ cases: number; date: Date }[]> {
-	let casesFromPreviousDays: any[] = await this.getAllCasesFromDay(days + 1);
-	let casesSinceDay: any[] = await this.getLastCasesHistory(days);
 	let allCases = Array<any>();
+	let baseCases = 0;
+	let casesSinceDay: any[] = await this.getLastCasesHistory(days);
+
+	if (days != null) {
+		let casesFromPreviousDays: any[] = await this.getAllCasesFromDay(days + 1);
+		baseCases = casesFromPreviousDays[0].cases;
+	}
 
 	for (let i = 0; i < casesSinceDay.length; i++) {
 		allCases.push({
-			cases: casesSinceDay[i].cases + casesFromPreviousDays[0].cases + (i > 0 ? casesSinceDay[i - 1].cases : 0),
+			cases: +casesSinceDay[i].cases + baseCases + +(i > 0 ? allCases[i - 1].cases : 0),
 			date: casesSinceDay[i].date,
 		});
+
+		baseCases = 0;
 	}
 
 	return allCases;
@@ -80,10 +87,12 @@ export async function getAllCasesHistory(days?: number): Promise<{ cases: number
  */
 export async function getAllCasesFromDay(day?: number): Promise<{ cases: number; date: Date }[]> {
 	const whereParams = ['NeuerFall IN(1,0)'];
-	const dateString = getDateBefore(day);
+
 	if (day != null) {
+		const dateString = getDateBefore(day);
 		whereParams.push(`MeldeDatum <= TIMESTAMP '${dateString}'`);
 	}
+
 	const response = await axios.get(
 		`https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_COVID19/FeatureServer/0/query?where=${whereParams.join(
 			' AND '

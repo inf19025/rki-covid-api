@@ -113,6 +113,8 @@ export async function GermanyAllCasesHistoryResponse(
 		throw new TypeError("Wrong format for ':days' parameter! This is not a number.");
 	}
 
+	days = days == 0 ? 1 : days;
+
 	const history = await getAllCasesHistory(days);
 
 	return {
