@@ -59,7 +59,7 @@ export async function getLastCasesHistory(days?: number): Promise<{ cases: numbe
  * @returns The Promise containing the calculated number of cases
  */
 export async function getAllCasesHistory(days?: number): Promise<{ cases: number; date: Date }[]> {
-	let casesFromPreviousDays: any[] = await this.getAllCasesFromDay(days);
+	let casesFromPreviousDays: any[] = await this.getAllCasesFromDay(days + 1);
 	let casesSinceDay: any[] = await this.getLastCasesHistory(days);
 	let allCases = Array<any>();
 
