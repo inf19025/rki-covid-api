@@ -14,14 +14,6 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
       -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          driver-opts: network=host
-      -
         name: Login to registry
         uses: docker/login-action@v1
         with:
@@ -34,7 +26,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: docker.heg0damask.cloud:443/covid-api:latest
+          tags: ${{secrets.REGISTRY_URL }}:443/covid-api:latest
           
       - name: Invoke deployment hook
         uses: distributhor/workflow-webhook@v1
