@@ -1,5 +1,3 @@
-SUKA BLYAT
-
 # Robert Koch-Institut API (v2)
 
 A JSON Rest API to query all relevant corona data for Germany based on the figures of the Robert Koch-Institut.
