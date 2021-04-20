@@ -18,7 +18,7 @@ jobs:
         run: docker build . -t ${{ secrets.REGISTRY_URL }}/covid-api:latest
         
       - name: Login
-        run: 'docker login ${{ secrets.REGISTRY_URL }} && ${{secrets.REGISTRY_USER}} && ${{secrets.REGISTRY_TOKEN}}'
+        run: 'docker login ${{ secrets.REGISTRY_URL }} -u ${{secrets.REGISTRY_USER}} -p ${{secrets.REGISTRY_TOKEN}}'
         
       - name: Push
         run: 'docker push ${{ secrets.REGISTRY_URL }}/covid-api:latest'
