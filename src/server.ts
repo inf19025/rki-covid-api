@@ -22,6 +22,7 @@ import {
 	GermanyWeekIncidenceHistoryResponse,
 } from './responses/germany';
 import {
+	DistrictsAllCasesHistoryResponse,
 	DistrictsCasesHistoryResponse,
 	DistrictsDeathsHistoryResponse,
 	DistrictsRecoveredHistoryResponse,
@@ -334,6 +335,16 @@ app.get('/districts/:district/history/recovered', queuedCache(), cache.route(), 
 
 app.get('/districts/:district/history/recovered/:days', queuedCache(), cache.route(), async (req, res) => {
 	const response = await DistrictsRecoveredHistoryResponse(parseInt(req.params.days), req.params.district);
+	res.json(response);
+});
+
+app.get('/districts/:district/history/allcases', queuedCache(), cache.route(), async (req, res) => {
+	const response = await DistrictsAllCasesHistoryResponse(null, req.params.district);
+	res.json(response);
+});
+
+app.get('/districts/:district/history/allcases/:days', queuedCache(), cache.route(), async (req, res) => {
+	const response = await DistrictsAllCasesHistoryResponse(parseInt(req.params.days), req.params.district);
 	res.json(response);
 });
 
