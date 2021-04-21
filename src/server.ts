@@ -6,6 +6,7 @@ import queue from '@marlon360/express-queue';
 import 'express-async-errors';
 
 import {
+	StatesAllCasesHistoryResponse,
 	StatesCasesHistoryResponse,
 	StatesDeathsHistoryResponse,
 	StatesRecoveredHistoryResponse,
@@ -220,6 +221,16 @@ app.get('/states/:state/history/recovered', queuedCache(), cache.route(), async 
 
 app.get('/states/:state/history/recovered/:days', queuedCache(), cache.route(), async (req, res) => {
 	const response = await StatesRecoveredHistoryResponse(parseInt(req.params.days), req.params.state);
+	res.json(response);
+});
+
+app.get('/states/:state/history/allcases/', queuedCache(), cache.route(), async (req, res) => {
+	const response = await StatesAllCasesHistoryResponse(null, req.params.state);
+	res.json(response);
+});
+
+app.get('/states/:state/history/allcases/:days', queuedCache(), cache.route(), async (req, res) => {
+	const response = await StatesAllCasesHistoryResponse(parseInt(req.params.days), req.params.state);
 	res.json(response);
 });
 
