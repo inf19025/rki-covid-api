@@ -10,7 +10,8 @@
 		"docs:dev": "vuepress dev docs",
 		"docs:build": "vuepress build docs",
 		"tsc": "tsc",
-		"start-docless": "npm run tsc && node dist/server.js"
+		"start-docless": "npm run tsc && node dist/server.js",
+		"start-debug": "npm run tsc && node --inspect dist/server.js"
 	},
 	"author": "",
 	"license": "ISC",
