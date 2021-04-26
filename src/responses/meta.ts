@@ -11,7 +11,7 @@ export class ResponseMeta {
 
 	constructor(lastUpdate: Date) {
 		this.source = 'Robert Koch-Institut';
-		this.contact = 'DashboardCrawler Team';
+		this.contact = 'DashboardCrawler Team (contact@heg0damask.cloud)';
 		this.info = '©2021 DashboardCrawler';
 		this.lastUpdate = lastUpdate;
 		this.lastCheckedForUpdate = new Date();
