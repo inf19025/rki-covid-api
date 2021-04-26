@@ -1,0 +1,33 @@
+name: docker deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'v2'
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Build
+        run: docker build . -t ${{ secrets.REGISTRY_URL }}/covid-api:latest
+        
+      - name: Login
+        run: 'docker login ${{ secrets.REGISTRY_URL }} -u ${{secrets.REGISTRY_USER}} -p ${{secrets.REGISTRY_TOKEN}}'
+        
+      - name: Push
+        run: 'docker push ${{ secrets.REGISTRY_URL }}/covid-api:latest'
+        
+      - name: Logout
+        run: 'docker logout ${{ secrets.REGISTRY_URL }}'
+          
+      - name: Invoke deployment hook
+        uses: distributhor/workflow-webhook@v1
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
