@@ -6,7 +6,9 @@ on:
       - '*'
       
 jobs:
-  name: Build Docker
-  runs_on: ubuntu-latest
-  steps:
-   - run: docker build . -t api:test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - uses: actions/checkout@v2
+     - name: Build Image
+       run: docker build . -t api:test
