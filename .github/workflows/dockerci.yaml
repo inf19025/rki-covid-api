@@ -1,0 +1,12 @@
+name: docker ci
+
+on: 
+  pull_request:
+    branches:
+      - '*'
+      
+jobs:
+  name: Build Docker
+  runs_on: ubuntu-latest
+  steps:
+   - run: docker build . -t api:test
