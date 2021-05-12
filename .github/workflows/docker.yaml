@@ -27,7 +27,7 @@ jobs:
         run: 'docker logout ${{ secrets.REGISTRY_URL }}'
           
       - name: Invoke deployment hook
-        uses: distributhor/workflow-webhook@v1
+        uses: distributhor/workflow-webhook@v1.0.8
         env:
           webhook_url: ${{ secrets.WEBHOOK_URL }}
           webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
